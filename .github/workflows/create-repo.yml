@@ -10,6 +10,7 @@ on:
         description: 'Name of the repository to create'
         required: true
         type: string
+        default: 'com-firesargeapps-'
 
 jobs:
   create-repo:
