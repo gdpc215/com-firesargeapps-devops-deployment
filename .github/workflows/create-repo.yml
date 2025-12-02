@@ -1,0 +1,50 @@
+name: Create GitHub Repository
+
+on:
+  # push:
+  #   branches: 
+  #     - 'feature/**'
+  workflow_dispatch:
+    inputs:
+      repo_name:
+        description: 'Name of the repository to create'
+        required: true
+        type: string
+
+jobs:
+  create-repo:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup GitHub CLI
+        run: |
+          type -p gh >/dev/null || echo "GitHub CLI is already installed"
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "${{ github.actor }}"
+          git config --global user.email "${{ github.actor }}@users.noreply.github.com"
+
+      - name: Make script executable
+        run: chmod +x src/github/create-repo.sh
+
+      - name: Create repository
+        env:
+          GH_TOKEN: ${{ secrets.GHCR_PAT }}
+        run: |
+          ./src/github/create-repo.sh "${{ github.event.inputs.repo_name }}"
+
+      - name: Summary
+        run: |
+          echo "### ✅ Repository Created Successfully" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Repository Name:** ${{ github.event.inputs.repo_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Organization:** ${{ github.repository_owner }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Branches created:**" >> $GITHUB_STEP_SUMMARY
+          echo "- main/master (default)" >> $GITHUB_STEP_SUMMARY
+          echo "- develop" >> $GITHUB_STEP_SUMMARY
+          echo "- feature/initial" >> $GITHUB_STEP_SUMMARY

@@ -1,0 +1,28 @@
+# Local configuration for the application
+#.env
+
+# Build output
+target/
+*.class
+
+# Log file
+*.log
+
+# Package Files #
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# macOS
+.DS_Store
+
+# Azure Functions
+bin/
+obj/
+
+# IDE files
+.idea/
+*.iml
