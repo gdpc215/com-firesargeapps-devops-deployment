@@ -28,7 +28,7 @@ echo "https://oauth2:${GH_TOKEN}@github.com" > ~/.git-credentials
 
 # Get the path to templates
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-TEMPLATES_DIR="$SCRIPT_DIR/../project-templates"
+TEMPLATES_DIR="$SCRIPT_DIR/../../project-templates"
 
 # Function to create a repository with templates
 create_repo_with_templates() {
@@ -39,6 +39,13 @@ create_repo_with_templates() {
     echo "=========================================="
     echo "Creating repository: $REPO_NAME"
     echo "=========================================="
+    
+    # Check if repository exists and delete it
+    if gh repo view "$ORG_NAME/$REPO_NAME" >/dev/null 2>&1; then
+        echo "Repository $REPO_NAME already exists. Deleting..."
+        gh repo delete "$ORG_NAME/$REPO_NAME" --yes
+        echo "Repository $REPO_NAME deleted successfully"
+    fi
     
     # Create the repository
     gh repo create "$ORG_NAME/$REPO_NAME" --public
