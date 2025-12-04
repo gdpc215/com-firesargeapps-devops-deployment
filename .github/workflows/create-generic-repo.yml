@@ -1,4 +1,4 @@
-name: Create GitHub Repository
+name: Create Generic Repository
 
 on:
   # push:
@@ -13,7 +13,7 @@ on:
         default: 'com-firesargeapps-'
 
 jobs:
-  create-repo:
+  create-generic-repo:
     runs-on: ubuntu-latest
     
     steps:
@@ -30,13 +30,13 @@ jobs:
           git config --global user.email "${{ github.actor }}@users.noreply.github.com"
 
       - name: Make script executable
-        run: chmod +x src/github/create-repo.sh
+        run: chmod +x src/scripts/github/create-generic-repo.sh
 
       - name: Create repository
         env:
           GH_TOKEN: ${{ secrets.GHCR_PAT }}
         run: |
-          ./src/github/create-repo.sh "${{ github.event.inputs.repo_name }}"
+          ./src/scripts/github/create-generic-repo.sh "${{ github.event.inputs.repo_name }}"
 
       - name: Summary
         run: |
