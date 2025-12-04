@@ -85,6 +85,12 @@ create_repo_with_templates() {
         echo "Copying templates from $TEMPLATE_PATH"
         cp -r "$TEMPLATE_PATH"/* . 2>/dev/null || echo "No files to copy from templates"
         
+        # Rename gitignore to .gitignore if it exists
+        if [ -f "gitignore" ]; then
+            mv "gitignore" ".gitignore"
+            echo "Renamed gitignore to .gitignore"
+        fi
+        
         # Replace PROJECT_ID placeholder in all files
         find . -type f -not -path "./.git/*" -exec sed -i "s/\${PROJECT_ID}/$PROJECT_ID/g" {} + 2>/dev/null || true
         find . -type f -not -path "./.git/*" -exec sed -i "s/{{PROJECT_ID}}/$PROJECT_ID/g" {} + 2>/dev/null || true
