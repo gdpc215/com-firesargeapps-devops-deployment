@@ -40,12 +40,12 @@ create_repo_with_templates() {
     echo "Creating repository: $REPO_NAME"
     echo "=========================================="
     
-    # Check if repository exists and delete it
-    if gh repo view "$ORG_NAME/$REPO_NAME" >/dev/null 2>&1; then
-        echo "Repository $REPO_NAME already exists. Deleting..."
-        gh repo delete "$ORG_NAME/$REPO_NAME" --yes
-        echo "Repository $REPO_NAME deleted successfully"
-    fi
+    # Check if repository exists and delete it. Needs delete_repo permission.
+    # if gh repo view "$ORG_NAME/$REPO_NAME" >/dev/null 2>&1; then
+    #     echo "Repository $REPO_NAME already exists. Deleting..."
+    #     gh repo delete "$ORG_NAME/$REPO_NAME" --yes
+    #     echo "Repository $REPO_NAME deleted successfully"
+    # fi
     
     # Create the repository
     gh repo create "$ORG_NAME/$REPO_NAME" --public
