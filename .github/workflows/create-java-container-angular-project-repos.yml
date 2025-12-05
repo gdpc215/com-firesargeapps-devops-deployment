@@ -1,0 +1,59 @@
+name: Create Java Container-Angular Project Repositories
+
+on:
+  workflow_dispatch:
+    inputs:
+      project_id:
+        description: 'Project ID (4 character lowercase string)'
+        required: true
+        type: string
+
+jobs:
+  create-java-angular-repos:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate Project ID
+        run: |
+          if [[ ! "${{ github.event.inputs.project_id }}" =~ ^[a-z0-9]{4}$ ]]; then
+            echo "Error: Project ID must be exactly 4 characters (lowercase letters and numbers only)"
+            exit 1
+          fi
+
+      - name: Setup GitHub CLI
+        run: |
+          type -p gh >/dev/null || echo "GitHub CLI is already installed"
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "${{ github.actor }}"
+          git config --global user.email "${{ github.actor }}@users.noreply.github.com"
+
+      - name: Make script executable
+        run: chmod +x src/scripts/github/create-java-angular-project-repos.sh
+
+      - name: Create repositories
+        env:
+          GH_TOKEN: ${{ secrets.GHCR_PAT }}
+        run: |
+          ./src/scripts/github/create-java-angular-project-repos.sh "${{ github.event.inputs.project_id }}" "container"
+
+      - name: Summary
+        run: |
+          echo "### ✅ Java Container-Angular Project Repositories Created Successfully" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Project ID:** ${{ github.event.inputs.project_id }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Organization:** ${{ github.repository_owner }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Repositories created:**" >> $GITHUB_STEP_SUMMARY
+          echo "- fsapps-${{ github.event.inputs.project_id }}-iaac (Terraform/Infrastructure)" >> $GITHUB_STEP_SUMMARY
+          echo "- fsapps-${{ github.event.inputs.project_id }}-java-backend (Java Container Backend)" >> $GITHUB_STEP_SUMMARY
+          echo "- fsapps-${{ github.event.inputs.project_id }}-angular-front (Angular Frontend)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Branches created in each repository:**" >> $GITHUB_STEP_SUMMARY
+          echo "- master (default)" >> $GITHUB_STEP_SUMMARY
+          echo "- develop" >> $GITHUB_STEP_SUMMARY
+          echo "- feature/initial (with project templates)" >> $GITHUB_STEP_SUMMARY

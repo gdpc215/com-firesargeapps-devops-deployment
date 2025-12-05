@@ -1,6 +1,6 @@
 # fsapps-${PROJECT_ID}-iaac
 
-Infrastructure as Code (IaC) repository for project ${PROJECT_ID}.
+Infrastructure as Code (IaC) repository for project ${PROJECT_ID_UPPER}.
 
 ## Prerequisites
 
@@ -39,4 +39,4 @@ terraform apply
 
 ## Project ID
 
-This project uses the identifier: **${PROJECT_ID}**
+This project uses the identifier: **${PROJECT_ID_UPPER}**

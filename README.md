@@ -1,3 +1,3 @@
-# Eatsy Devops Deployment
+# Devops Deployment
 
 DevOps repository for common scripts

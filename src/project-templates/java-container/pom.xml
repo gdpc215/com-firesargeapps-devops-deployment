@@ -16,7 +16,7 @@
     <artifactId>fsapps-${PROJECT_ID}-backend</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>fsapps-${PROJECT_ID}-backend</name>
-    <description>Backend application for project ${PROJECT_ID}</description>
+    <description>Backend application for project ${PROJECT_ID_UPPER}</description>
 
     <properties>
         <java.version>17</java.version>

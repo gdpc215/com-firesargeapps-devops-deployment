@@ -1,6 +1,6 @@
 # fsapps-${PROJECT_ID}-java-backend
 
-Java Spring Boot backend application for project ${PROJECT_ID}.
+Java Spring Boot backend application for project ${PROJECT_ID_UPPER}.
 
 ## Prerequisites
 
@@ -46,4 +46,4 @@ src/
 
 ## Project ID
 
-This project uses the identifier: **${PROJECT_ID}**
+This project uses the identifier: **${PROJECT_ID_UPPER}**

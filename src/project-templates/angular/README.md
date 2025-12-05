@@ -1,6 +1,6 @@
 # fsapps-${PROJECT_ID}-angular-front
 
-Angular frontend application for project ${PROJECT_ID}.
+Angular frontend application for project ${PROJECT_ID_UPPER}.
 
 ## Prerequisites
 
@@ -48,4 +48,4 @@ The application connects to the backend API. Update the API URL in your environm
 
 ## Project ID
 
-This project uses the identifier: **${PROJECT_ID}**
+This project uses the identifier: **${PROJECT_ID_UPPER}**

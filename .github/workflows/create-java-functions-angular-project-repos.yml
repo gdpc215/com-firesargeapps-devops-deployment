@@ -1,10 +1,10 @@
-name: Create Java-Angular Project Repositories
+name: Create Java Functions-Angular Project Repositories
 
 on:
   workflow_dispatch:
     inputs:
       project_id:
-        description: 'Project ID (4 character string)'
+        description: 'Project ID (4 character lowercase string)'
         required: true
         type: string
 
@@ -39,18 +39,18 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GHCR_PAT }}
         run: |
-          ./src/scripts/github/create-java-angular-project-repos.sh "${{ github.event.inputs.project_id }}"
+          ./src/scripts/github/create-java-angular-project-repos.sh "${{ github.event.inputs.project_id }}" "functions"
 
       - name: Summary
         run: |
-          echo "### ✅ Java-Angular Project Repositories Created Successfully" >> $GITHUB_STEP_SUMMARY
+          echo "### ✅ Java Functions-Angular Project Repositories Created Successfully" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "**Project ID:** ${{ github.event.inputs.project_id }}" >> $GITHUB_STEP_SUMMARY
           echo "**Organization:** ${{ github.repository_owner }}" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "**Repositories created:**" >> $GITHUB_STEP_SUMMARY
           echo "- fsapps-${{ github.event.inputs.project_id }}-iaac (Terraform/Infrastructure)" >> $GITHUB_STEP_SUMMARY
-          echo "- fsapps-${{ github.event.inputs.project_id }}-java-backend (Java Backend)" >> $GITHUB_STEP_SUMMARY
+          echo "- fsapps-${{ github.event.inputs.project_id }}-java-backend (Java Azure Functions Backend)" >> $GITHUB_STEP_SUMMARY
           echo "- fsapps-${{ github.event.inputs.project_id }}-angular-front (Angular Frontend)" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "**Branches created in each repository:**" >> $GITHUB_STEP_SUMMARY

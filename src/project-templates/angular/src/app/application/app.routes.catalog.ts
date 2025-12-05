@@ -1,6 +1,9 @@
 export const CatalogRoutes = {
+  APP: 'app',
+
   // Main routes
-  HOME: '',
+  HOME: 'home',
+  ABOUT: 'about',
   ERROR: 'error',
 
   // NESTED: {

@@ -1,7 +1,7 @@
 {
   "name": "fsapps-${PROJECT_ID}-angular-front",
   "version": "0.0.1",
-  "description": "Angular frontend for project ${PROJECT_ID}",
+  "description": "Angular frontend for project ${PROJECT_ID_UPPER}",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 })
 export class AppComponent implements OnInit {
   title = 'fsapps-${PROJECT_ID}-front';
-  projectId = '${PROJECT_ID}';
+  projectId = '${PROJECT_ID_UPPER}';
 
   constructor(
     protected router: Router,

@@ -24,11 +24,12 @@ import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { RouterModule } from "@angular/router";
+import { FrameComponent } from "./_frame/frame.component";
 
 @NgModule({
   declarations: [
     // Shared components
-    // FrameComponent,
+    FrameComponent,
   ],
   imports: [
     // Global imports
@@ -64,6 +65,9 @@ import { RouterModule } from "@angular/router";
     MatToolbarModule,
   ],
   exports: [
+    // Shared components
+    FrameComponent,
+
     // Global imports
     CommonModule,
     RouterModule,

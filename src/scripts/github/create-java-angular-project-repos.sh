@@ -3,10 +3,12 @@
 set -e  # Exit on error
 
 PROJECT_ID=$1
+PROJECT_TYPE=${2:-container}  # Default to container if not specified
 
 if [ -z "$PROJECT_ID" ]; then
     echo "Error: Project ID is required"
-    echo "Usage: $0 <project-id>"
+    echo "Usage: $0 <project-id> [project-type]"
+    echo "  project-type: container (default) or functions"
     exit 1
 fi
 
@@ -16,7 +18,13 @@ if [[ ! "$PROJECT_ID" =~ ^[a-z0-9]{4}$ ]]; then
     exit 1
 fi
 
-echo "Creating repositories for project: $PROJECT_ID"
+# Validate project type
+if [[ ! "$PROJECT_TYPE" =~ ^(container|functions)$ ]]; then
+    echo "Error: Project type must be 'container' or 'functions'"
+    exit 1
+fi
+
+echo "Creating repositories for project: $PROJECT_ID (Type: $PROJECT_TYPE)"
 
 # Get the organization name from the current repo context
 ORG_NAME=$(gh repo view --json owner -q '.owner.login')
@@ -90,10 +98,12 @@ create_repo_with_templates() {
             mv "gitignore" ".gitignore"
             echo "Renamed gitignore to .gitignore"
         fi
-        
-        # Replace PROJECT_ID placeholder in all files
+        # Replace PROJECT_ID and PROJECT_ID_UPPER placeholders in all files
+        PROJECT_ID_UPPER=$(printf '%s' "$PROJECT_ID" | tr '[:lower:]' '[:upper:]')
         find . -type f -not -path "./.git/*" -exec sed -i "s/\${PROJECT_ID}/$PROJECT_ID/g" {} + 2>/dev/null || true
         find . -type f -not -path "./.git/*" -exec sed -i "s/{{PROJECT_ID}}/$PROJECT_ID/g" {} + 2>/dev/null || true
+        find . -type f -not -path "./.git/*" -exec sed -i "s/\${PROJECT_ID_UPPER}/$PROJECT_ID_UPPER/g" {} + 2>/dev/null || true
+        find . -type f -not -path "./.git/*" -exec sed -i "s/{{PROJECT_ID_UPPER}}/$PROJECT_ID_UPPER/g" {} + 2>/dev/null || true
         
         git add -A
         if git diff --staged --quiet; then
@@ -115,9 +125,16 @@ create_repo_with_templates() {
     echo ""
 }
 
-# Create the three repositories
+# Create the three repositories with appropriate templates
 create_repo_with_templates "iaac" "terraform"
-create_repo_with_templates "java-backend" "java"
+
+# Choose Java template based on project type
+if [ "$PROJECT_TYPE" = "functions" ]; then
+    create_repo_with_templates "java-backend" "java-functions"
+else
+    create_repo_with_templates "java-backend" "java-container"
+fi
+
 create_repo_with_templates "angular-front" "angular"
 
 # Cleanup credentials
